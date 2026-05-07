@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { AuthService } from "@/services/auth.service";
-import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
 
 // GET /api/categories — public list
 export async function GET() {
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     const supabase = createAdminClient(); 
     const { data, error } = await supabase
       .from("categories")
-      .insert({ name, slug, description, image_url: imageUrl, display_order: displayOrder ?? 0 })
+      .insert({ name, slug, description, image_url: imageUrl, display_order: displayOrder ?? 0 } as any)
       .select()
       .single();
 

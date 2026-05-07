@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense, use } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Upload, ChevronRight, CheckCircle2, ShieldCheck, Copy, Phone, ArrowLeft, MessageCircle } from "lucide-react";
 import toast from "react-hot-toast";

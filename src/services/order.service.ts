@@ -50,8 +50,7 @@ export const OrderService = {
     const orderNumber = await generateOrderNumber();
 
     // Create order
-    const { data: order, error: orderError } = await admin
-      .from("orders")
+    const { data: order, error: orderError } = await (admin.from("orders") as any)
       .insert({
         id: crypto.randomUUID(),
         order_number: orderNumber,
@@ -71,7 +70,7 @@ export const OrderService = {
         payment_screenshot_url: orderData.paymentScreenshotUrl ?? null,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
-      })
+      } as any)
       .select()
       .single();
 
@@ -90,11 +89,11 @@ export const OrderService = {
       created_at: new Date().toISOString(),
     }));
 
-    const { error: itemsError } = await admin.from("order_items").insert(orderItems);
+    const { error: itemsError } = await (admin.from("order_items") as any).insert(orderItems as any);
     if (itemsError) throw new Error(itemsError.message);
 
     // Create payment record
-    await admin.from("payments").insert({
+    await (admin.from("payments") as any).insert({
       id: crypto.randomUUID(),
       order_id: order.id,
       amount: subtotal,
@@ -103,7 +102,7 @@ export const OrderService = {
       screenshot_url: orderData.paymentScreenshotUrl ?? null,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
-    });
+    } as any);
 
     return order as Order;
   },
@@ -158,13 +157,12 @@ export const OrderService = {
 
   async updateStatus(orderId: string, status: OrderStatus, adminNote?: string) {
     const admin = createAdminClient();
-    const { data, error } = await admin
-      .from("orders")
+    const { data, error } = await (admin.from("orders") as any)
       .update({
         status,
         ...(adminNote !== undefined && { admin_note: adminNote }),
         updated_at: new Date().toISOString(),
-      })
+      } as any)
       .eq("id", orderId)
       .select()
       .single();
@@ -174,33 +172,31 @@ export const OrderService = {
 
   async updatePaymentStatus(orderId: string, paymentStatus: PaymentStatus, verifiedById?: string) {
     const admin = createAdminClient();
-    const { data, error } = await admin
-      .from("orders")
+    const { data, error } = await (admin.from("orders") as any)
       .update({
         payment_status: paymentStatus,
         updated_at: new Date().toISOString(),
-      })
+      } as any)
       .eq("id", orderId)
       .select()
       .single();
     if (error) throw new Error(error.message);
 
     // Update payment record too
-    await admin.from("payments").update({
+    await (admin.from("payments") as any).update({
       status: paymentStatus,
       verified_by: verifiedById ?? null,
       verified_at: verifiedById ? new Date().toISOString() : null,
       updated_at: new Date().toISOString(),
-    }).eq("order_id", orderId);
+    } as any).eq("order_id", orderId);
 
     return data;
   },
 
   async addTrackingNumber(orderId: string, trackingNumber: string) {
     const admin = createAdminClient();
-    const { data, error } = await admin
-      .from("orders")
-      .update({ tracking_number: trackingNumber, updated_at: new Date().toISOString() })
+    const { data, error } = await (admin.from("orders") as any)
+      .update({ tracking_number: trackingNumber, updated_at: new Date().toISOString() } as any)
       .eq("id", orderId)
       .select()
       .single();

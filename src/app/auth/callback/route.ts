@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
             email: data.user.email!,
             name: data.user.user_metadata?.name || data.user.email?.split("@")[0] || "User",
             role: (data.user.user_metadata?.role as any) || "customer",
-          });
+          } as any);
         }
       } catch (profileError) {
         console.error("Error ensuring profile exists:", profileError);

@@ -13,6 +13,8 @@ export async function GET(request: NextRequest) {
 
     if (orderNumber) {
       const order = await OrderService.getByOrderNumber(orderNumber);
+      if (!order) return NextResponse.json({ error: "Order not found" }, { status: 404 });
+      
       // Security: verify order belongs to user or user is admin
       if (order.user_id !== user.id && user.user_metadata?.role !== 'admin' && user.user_metadata?.role !== 'super_admin') {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });

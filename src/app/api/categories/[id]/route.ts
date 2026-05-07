@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getSession } from "@/lib/auth";
+import { AuthService } from "@/services/auth.service";
 
 // PATCH /api/categories/[id]
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const session = await getSession();
-  if (!session || session.role !== "admin") {
+  const role = await AuthService.getUserRole();
+  if (role !== "admin" && role !== "super_admin") {
     return NextResponse.json({ error: "Admin access required" }, { status: 403 });
   }
   const body = await req.json();
@@ -26,8 +26,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 // DELETE /api/categories/[id]
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const session = await getSession();
-  if (!session || session.role !== "admin") {
+  const role = await AuthService.getUserRole();
+  if (role !== "admin" && role !== "super_admin") {
     return NextResponse.json({ error: "Admin access required" }, { status: 403 });
   }
   await prisma.category.delete({ where: { id } });
