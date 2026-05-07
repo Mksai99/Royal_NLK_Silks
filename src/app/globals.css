@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #7B1C2E;
+  --color-primary-foreground: #FAF3E0;
+  --color-secondary: #C9972B;
+  --color-secondary-foreground: #FAF3E0;
+  --color-accent: #C9972B;
+  --color-background: #FAF3E0;
+  --color-foreground: #2D2D2D;
+  --color-muted: #E5D5C0;
+  --color-muted-foreground: #5D5D5D;
+  --color-card: #FFFFFF;
+  --color-card-foreground: #2D2D2D;
+  --color-border: #D4AF37;
+  --color-input: #D4AF37;
+  --color-ring: #C9972B;
+
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Nunito", sans-serif;
+}
+
+@layer base {
+  :root {
+    --primary: #7B1C2E;
+    --primary-foreground: #FAF3E0;
+    --secondary: #C9972B;
+    --secondary-foreground: #FAF3E0;
+    --accent: #C9972B;
+    --background: #FAF3E0;
+    --foreground: #2D2D2D;
+    --muted: #E5D5C0;
+    --muted-foreground: #5D5D5D;
+    --card: #FFFFFF;
+    --card-foreground: #2D2D2D;
+    --border: #D4AF37;
+    --input: #D4AF37;
+    --ring: #C9972B;
+    --radius: 0.5rem;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+  }
+}
+
+.text-gold {
+  color: #C9972B;
+}
+
+.bg-maroon {
+  background-color: #7B1C2E;
+}
+
+.border-gold {
+  border-color: #C9972B;
+}
+
+/* Texture backgrounds */
+.bg-brocade {
+  background-image: url("https://www.transparenttextures.com/patterns/black-linen.png"); /* Placeholder for texture */
+  opacity: 0.05;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.hover-zoom {
+  transition: transform 0.3s ease;
+}
+
+.hover-zoom:hover {
+  transform: scale(1.05);
+}
